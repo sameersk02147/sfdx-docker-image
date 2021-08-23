@@ -1,0 +1,33 @@
+#Small alpine image
+FROM alpine
+
+#add usefull tools
+RUN apk add --update --no-cache  \
+      openssl \
+      curl \
+      wget \
+      unzip \
+      git \
+      rsync \
+      findutils \
+      bash \
+      nodejs \
+      npm \
+      openjdk8-jre \
+      jq \
+      gettext \
+      xmlstarlet \
+      ca-certificates
+
+# install sfdx from npm
+RUN npm install sfdx-cli --global
+RUN sfdx --version
+RUN sfdx plugins --core
+
+# install vlocity deploy
+RUN npm install --global vlocity -y
+RUN vlocity --version
+
+# install vlocityestools
+RUN echo y | sfdx plugins:install vlocityestools
+RUN sfdx plugins
